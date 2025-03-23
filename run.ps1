@@ -12,7 +12,7 @@ This script performs the following actions:
 	4. Install Python
 	5. Install WSL2
 	6. Sets script .\wsl-install.ps1 
-	to run on next boot
+	to run on next login
 	7. Reboot the system
 
 
@@ -84,7 +84,7 @@ dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux 
 dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
 Text-Format "WSL2 Enabled" "WSL"
 
-Text-Format "Setting further install scripts to run on next boot" "WSL"
+Text-Format "Setting further install scripts to run on next login" "WSL"
 # Get the current user, script path and set name for the task
 $CurrentUser = $env:USERDOMAIN + "\\" + $env:USERNAME
 $ScriptPath = $PWD.Path + "\powershell\wsl-setup.ps1"
@@ -111,8 +111,11 @@ $Settings.AllowDemandStart = $true  # Allow the task to be run manually
 $Settings.StopIfGoingOnBatteries = $false # Do not stop on battery
 $Settings.WakeToRun = $false   # Do not wake the computer
 
+# Create a principal to run the task as an administrator
+$Principal = New-ScheduledTaskPrincipal -UserId "NT AUTHORITY\SYSTEM" -LogonType ServiceAccount -RunLevel Highest
+
 # Create the task definition
-$TaskDefinition = New-ScheduledTask -Action $Action -Trigger $Trigger -Settings $Settings
+$TaskDefinition = New-ScheduledTask -Action $Action -Trigger $Trigger -Settings $Settings -Principal $Principal
 
 # Register the scheduled task
 Register-ScheduledTask -TaskName $TaskName -Definition $TaskDefinition
