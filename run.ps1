@@ -21,11 +21,11 @@ as it also uses PowerShell 5.1 by default.
 #>
 
 # Utility function to format text
-function Text-Format {
-	param (
-		[string]$Message,
-		[string]$Type = "INFO",
-	)
+function Text-Format(
+	[string]$Message,
+	[string]$Type = "INFO",
+) {
+	
 	switch ($Type) {
 		"INFO" {
 			Write-Host "[INFO][SETUP] $Message" -ForegroundColor Blue
