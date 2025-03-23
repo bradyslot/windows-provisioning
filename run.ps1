@@ -20,30 +20,8 @@ Tested on Windows 11 24H2 but should run on Windows 10
 as it also uses PowerShell 5.1 by default.
 #>
 
-# Utility function to format text
-function Text-Format(
-	[string]$Message,
-	[string]$Type = "INFO",
-) {
-	
-	switch ($Type) {
-		"INFO" {
-			Write-Host "[INFO][SETUP] $Message" -ForegroundColor Blue
-		}
-		"PACKAGE" {
-			Write-Host "[INFO][PACKAGES] $Message" -ForegroundColor Blue
-		}
-		"WSL" {
-			Write-Host "[INFO][WSL SETUP] $Message" -ForegroundColor Blue
-		}
-		"WARNING" {
-			Write-Host "[WARNING][SETUP] $Message" -ForegroundColor Yellow
-		}
-		"ERROR" {
-			Write-Host "[ERROR][SETUP] $Message" -ForegroundColor Red
-		}
-	}
-}
+# Load functions
+. ".\powershell\functions.ps1"
 
 # Confirm execution policy isn't restricted
 $ExecutionPolicy = Get-ExecutionPolicy
