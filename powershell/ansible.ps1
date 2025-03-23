@@ -24,6 +24,9 @@ if ($ExecutionPolicy -eq "Restricted") {
 	Set-ExecutionPolicy Bypass -Scope Process -Force;
 }
 
+Text-Format "Pulling repo and setting up Ansible" "WSL"
+Invoke-WSL "git clone https://github.com/yelrom0/windows-provisioning.git"
+
 # python -m venv .venv
 # .\.venv\Scripts\activate.ps1
 # python -m pip install -r .\requirements.txt --no-warn-script-location
